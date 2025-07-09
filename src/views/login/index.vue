@@ -20,6 +20,10 @@ import darkIcon from "@/assets/svg/dark.svg?component";
 import Lock from "~icons/ri/lock-fill";
 import User from "~icons/ri/user-3-fill";
 
+import { setToken } from "@/utils/auth";
+import { addPathMatch } from "@/router/utils";
+import { usePermissionStoreHook } from "@/store/modules/permission";
+
 defineOptions({
   name: "Login"
 });
@@ -46,28 +50,17 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   await formEl.validate(valid => {
     if (valid) {
       loading.value = true;
-      useUserStoreHook()
-        .loginByUsername({
-          username: ruleForm.username,
-          password: ruleForm.password
-        })
-        .then(res => {
-          if (res.success) {
-            // 获取后端路由
-            return initRouter().then(() => {
-              disabled.value = true;
-              router
-                .push(getTopMenu(true).path)
-                .then(() => {
-                  message("登录成功", { type: "success" });
-                })
-                .finally(() => (disabled.value = false));
-            });
-          } else {
-            message("登录失败", { type: "error" });
-          }
-        })
-        .finally(() => (loading.value = false));
+      setToken({
+        username: "admin",
+        roles: ["admin"],
+        accessToken: "eyJhbGciOiJIUzUxMiJ9.admin"
+      } as any);
+      // 全部采取静态路由模式
+      usePermissionStoreHook().handleWholeMenus([]);
+      addPathMatch();
+      router.push(getTopMenu(true).path);
+      message("登录成功", { type: "success" });
+      loading.value = false;
     }
   });
 };

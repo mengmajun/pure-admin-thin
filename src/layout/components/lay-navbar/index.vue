@@ -11,6 +11,8 @@ import LogoutCircleRLine from "~icons/ri/logout-circle-r-line";
 import Setting from "~icons/ri/settings-3-line";
 import { computed } from "vue";
 
+import { useRouter } from "vue-router";
+
 const {
   layout,
   device,
@@ -23,10 +25,13 @@ const {
   toggleSideBar
 } = useNav();
 
-// 获取用户名的第一个字符，如果没有用户名则显示"登"
-const getFirstChar = computed(() => {
-  return username || "登录";
-});
+const router = useRouter();
+
+const handleLoginClick = () => {
+  if (username.value === "") {
+    router.push("/login");
+  }
+};
 </script>
 
 <template>
@@ -54,18 +59,15 @@ const getFirstChar = computed(() => {
       <!-- 消息通知 -->
       <LayNotice id="header-notice" />
       <!-- 退出登录 -->
-      <el-dropdown trigger="click">
-        <!-- <span class="el-dropdown-link navbar-bg-hover select-none">
-          <img :src="userAvatar" :style="avatarsStyle" />
-          <p v-if="username" class="dark:text-white">{{ username }}</p>
-        </span> -->
+      <el-dropdown trigger="hover" class="mr-2">
         <div
-          class="grid place-items-center w-15 h-8 rounded-md bg-black text-white text-s font-bold"
+          class="grid place-items-center w-20 h-8 rounded-md bg-black text-white text-m font-bold"
+          @click="handleLoginClick"
         >
-          {{ getFirstChar }}
+          {{ username === "" ? "立即登录" : username }}
         </div>
         <template #dropdown>
-          <el-dropdown-menu class="logout">
+          <el-dropdown-menu v-if="username !== ''" class="logout">
             <el-dropdown-item @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"
@@ -106,6 +108,7 @@ const getFirstChar = computed(() => {
     justify-content: flex-end;
     min-width: 280px;
     height: 48px;
+    padding-right: 16px;
     color: #000000d9;
 
     .el-dropdown-link {

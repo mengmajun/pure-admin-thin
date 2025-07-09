@@ -4,6 +4,11 @@
 
 **中文** | [English](./README.en-US.md)
 
+## TODO
+
+- [ ] 在大分辨率环境下字体小、登录位置应该缩减一些美观好看
+- [ ] 去掉登录限制，打开网页直接进入，登录的时候才切换到登录页面
+
 ## 介绍
 
 精简版是基于 [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) 提炼出的架子，包含主体功能，更适合实际项目开发，打包后的大小在全局引入 [element-plus](https://element-plus.org) 的情况下仍然低于 `2.3MB`，并且会永久同步完整版的代码。开启 `brotli` 压缩和 `cdn` 替换本地库模式后，打包大小低于 `350kb`
@@ -21,23 +26,3 @@
 
 [点我查看 vue-pure-admin 文档](https://pure-admin.cn/)  
 [点我查看 @pureadmin/utils 文档](https://pure-admin-utils.netlify.app)
-
-## 高级服务
-
-[点我查看详情](https://pure-admin.cn/pages/service/)
-
-## 预览
-
-[查看预览](https://pure-admin-thin.netlify.app/#/login)
-
-## 维护者
-
-[xiaoxian521](https://github.com/xiaoxian521)
-
-## ⚠️ 注意
-
-精简版不接受任何 `issues` 和 `pr`，如果有问题请到完整版 [issues](https://github.com/pure-admin/vue-pure-admin/issues/new/choose) 去提，谢谢！
-
-## 许可证
-
-[MIT © 2020-present, pure-admin](./LICENSE)
