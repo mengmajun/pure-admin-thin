@@ -9,6 +9,7 @@ import LaySidebarTopCollapse from "../lay-sidebar/components/SidebarTopCollapse.
 
 import LogoutCircleRLine from "~icons/ri/logout-circle-r-line";
 import Setting from "~icons/ri/settings-3-line";
+import { computed } from "vue";
 
 const {
   layout,
@@ -21,10 +22,15 @@ const {
   avatarsStyle,
   toggleSideBar
 } = useNav();
+
+// 获取用户名的第一个字符，如果没有用户名则显示"登"
+const getFirstChar = computed(() => {
+  return username || "登录";
+});
 </script>
 
 <template>
-  <div class="navbar bg-[#fff] shadow-xs shadow-[rgba(0,21,41,0.08)]">
+  <div class="navbar bg-[#fff]">
     <LaySidebarTopCollapse
       v-if="device === 'mobile'"
       class="hamburger-container"
@@ -32,26 +38,32 @@ const {
       @toggleClick="toggleSideBar"
     />
 
-    <LaySidebarBreadCrumb
+    <!-- 禁用面包屑导航 -->
+    <!-- <LaySidebarBreadCrumb
       v-if="layout !== 'mix' && device !== 'mobile'"
       class="breadcrumb-container"
-    />
+    /> -->
 
     <LayNavMix v-if="layout === 'mix'" />
 
     <div v-if="layout === 'vertical'" class="vertical-header-right">
       <!-- 菜单搜索 -->
-      <LaySearch id="header-search" />
+      <!-- <LaySearch id="header-search" /> -->
       <!-- 全屏 -->
-      <LaySidebarFullScreen id="full-screen" />
+      <!-- <LaySidebarFullScreen id="full-screen" /> -->
       <!-- 消息通知 -->
       <LayNotice id="header-notice" />
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
-        <span class="el-dropdown-link navbar-bg-hover select-none">
+        <!-- <span class="el-dropdown-link navbar-bg-hover select-none">
           <img :src="userAvatar" :style="avatarsStyle" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
-        </span>
+        </span> -->
+        <div
+          class="grid place-items-center w-15 h-8 rounded-md bg-black text-white text-s font-bold"
+        >
+          {{ getFirstChar }}
+        </div>
         <template #dropdown>
           <el-dropdown-menu class="logout">
             <el-dropdown-item @click="logout">
@@ -59,18 +71,18 @@ const {
                 :icon="LogoutCircleRLine"
                 style="margin: 5px"
               />
-              退出系统
+              注销
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
+      <!-- <span
         class="set-icon navbar-bg-hover"
         title="打开系统配置"
         @click="onPanel"
       >
         <IconifyIconOffline :icon="Setting" />
-      </span>
+      </span> -->
     </div>
   </div>
 </template>

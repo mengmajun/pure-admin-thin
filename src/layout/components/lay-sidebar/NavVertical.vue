@@ -89,44 +89,83 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-loading="loading"
-    :class="['sidebar-container', showLogo ? 'has-logo' : 'no-logo']"
+    :class="[
+      'sidebar-container',
+      showLogo ? 'has-logo' : 'no-logo',
+      device === 'mobile' ? 'mobile-layout' : ''
+    ]"
     @mouseenter.prevent="isShow = true"
     @mouseleave.prevent="isShow = false"
   >
     <LaySidebarLogo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar
-      wrap-class="scrollbar-wrapper"
-      :class="[device === 'mobile' ? 'mobile' : 'pc']"
-    >
-      <el-menu
-        unique-opened
-        mode="vertical"
-        popper-class="pure-scrollbar"
-        class="outer-most select-none"
-        :collapse="isCollapse"
-        :collapse-transition="false"
-        :popper-effect="tooltipEffect"
-        :default-active="defaultActive"
+
+    <div class="sidebar-content">
+      <el-scrollbar
+        wrap-class="scrollbar-wrapper"
+        :class="[device === 'mobile' ? 'mobile' : 'pc']"
       >
-        <LaySidebarItem
-          v-for="routes in menuData"
-          :key="routes.path"
-          :item="routes"
-          :base-path="routes.path"
+        <el-menu
+          unique-opened
+          mode="vertical"
+          popper-class="pure-scrollbar"
           class="outer-most select-none"
-        />
-      </el-menu>
-    </el-scrollbar>
-    <LaySidebarCenterCollapse
-      v-if="device !== 'mobile' && (isShow || isCollapse)"
-      :is-active="pureApp.sidebar.opened"
-      @toggleClick="toggleSideBar"
-    />
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :popper-effect="tooltipEffect"
+          :default-active="defaultActive"
+        >
+          <LaySidebarItem
+            v-for="routes in menuData"
+            :key="routes.path"
+            :item="routes"
+            :base-path="routes.path"
+            class="outer-most select-none"
+          />
+        </el-menu>
+      </el-scrollbar>
+
+      <!-- 固定在底部的升级套餐区域 -->
+      <div
+        class="absolute bottom-10 left-0 right-0 p-3 bg-gradient-to-r from-indigo-50 to-white border-t border-gray-200 transition-all duration-300 z-10"
+      >
+        <div class="flex items-center gap-2 w-full">
+          <div
+            class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-md bg-indigo-100 text-indigo-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+              />
+              <circle cx="11.5" cy="7.5" r="2.5" fill="currentColor" />
+            </svg>
+          </div>
+          <div class="flex-grow min-w-0">
+            <div class="text-sm font-semibold text-gray-800 truncate">
+              升级套餐
+            </div>
+            <div class="text-xs text-gray-500 truncate">解锁更多功能</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 折叠按钮现在位于升级区域下方 -->
     <LaySidebarLeftCollapse
       v-if="device !== 'mobile'"
       :is-active="pureApp.sidebar.opened"
       @toggleClick="toggleSideBar"
     />
+
+    <!-- <LaySidebarCenterCollapse
+      v-if="device !== 'mobile' && (isShow || isCollapse)"
+      :is-active="pureApp.sidebar.opened"
+      @toggleClick="toggleSideBar"
+    /> -->
   </div>
 </template>
 

@@ -42,6 +42,8 @@ const { title, getLogo } = useNav();
   width: 100%;
   height: 48px;
   overflow: hidden;
+  //自定义
+  background: var(--pure-theme-menu-bg) !important;
 
   .sidebar-logo-link {
     display: flex;

@@ -61,8 +61,12 @@ const toggleClick = () => {
 .left-collapse {
   position: absolute;
   bottom: 0;
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
   height: 40px;
+  padding-top: 12px;
+  padding-right: 16px; // 添加右边距
   line-height: 40px;
   box-shadow: 0 0 6px -3px var(--el-color-primary);
 }
